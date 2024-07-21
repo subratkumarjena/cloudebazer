@@ -1,9 +1,16 @@
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloudbazar/coustom_ui/custom_icon_ui.dart';
 import 'package:cloudbazar/coustom_ui/product_item.dart';
+import 'package:cloudbazar/data/localdata/sliderdata.dart';
+import 'package:cloudbazar/pages/catagory/catagorybloc/catagory_bloc.dart';
+import 'package:cloudbazar/pages/product/product_bloc/product_bloc.dart';
 import 'package:cloudbazar/utils/app_coloers.dart';
 import 'package:cloudbazar/utils/ui_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../coustom_ui/catagory_item.dart';
 import 'cart_page.dart';
 import 'mainhome.dart';
 class HomePage extends StatefulWidget{
@@ -13,6 +20,12 @@ class HomePage extends StatefulWidget{
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<CategoryBloc>().add(Catagory());
+    context.read<ProductBloc>().add(getproduct());
+  }
   int selecedIndex = 0;
   List<Widget> navpage = [
     CartPage(),
@@ -24,35 +37,85 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBody: true,
-      body:Padding(
-        padding:  EdgeInsets.symmetric(vertical: 24.0),
-        child: Padding(
-          padding: const EdgeInsets.all(11.0),
-          child: Column(
-            children: [
-              /// App bar
-             mAppBar(),
-              /// search bar
-              heightSpacing(),
-              searchbar(),
-              heightSpacing(),
+      body:Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(11.0),
+            child: Column(
+              children: [
+                /// App bar
+                SizedBox(
+                  height: 24,
+                ),
+                mAppBar(),
+                heightSpacing(),
+                /// Search bar
+                searchbar(),
 
-              /// gride product layout
-              Expanded(child: GridView.builder(
-                itemCount: 5,
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 210,
-                mainAxisSpacing: 11,
-                crossAxisSpacing: 11,
-                    childAspectRatio: 7/9
-              ),
-                  itemBuilder:(_, index){
-                return ProductItemUi();
-
-                  } ))
-            ],
+              ],
+            ),
           ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(11.0),
+                child: Column(
+                  children: [
+                    /// Slider
+                    slider(context),
+                    heightSpacing(),
+                    /// Category item
+                    SizedBox(
+                      height: 120,
+                      child: CategoryItem(),
+                    ),
+                    heightSpacing(),
+                    /// Grid product layout
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          ' Special For You',
+                          style: mTextStyle16(),
+                        ),
+                        Text(
+                          ' See all ',
+                          style: mTextStyle16(),
+                        ),
+                      ],
+                    ),
+    BlocBuilder<ProductBloc,ProductState>(
+    builder: (_,state){
+    if(state is ProductLoadingState){
+    return Center(child: CircularProgressIndicator(),);
+    }else if(state is ProductErrorState){
+    return Center(child: Text(state.Errormsg),);
+    }else if(state is ProductLoadedState){
+      return GridView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: state.productdtas.data!.length,
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 210,
+          mainAxisSpacing: 11,
+          crossAxisSpacing: 11,
+          childAspectRatio: 7 / 9,
         ),
+        itemBuilder: (_, index) {
+          var pData = state.productdtas.data!;
+          return ProductItemUi(mData: pData,index: index,);
+        },
+      );
+
+    }
+    return Container();},),
+
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
 
       bottomNavigationBar: BottomAppBar(
@@ -92,13 +155,30 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+Widget slider( BuildContext context){
+  return  ClipRRect(
+      borderRadius: BorderRadius.circular(08),
+      child: CarouselSlider(items: SliderData.sliderimage.map((eachUrl){
+        return SizedBox(
+          width: double.infinity,
+          child: Image.network(eachUrl,fit: BoxFit.fill,),
+        );
+      }).toList(), options: CarouselOptions(
+          autoPlay: true,
+          pageSnapping: false,
+          viewportFraction: 1,
+          height: MediaQuery.of(context).size.width<550?170:300
+      )),
+    );
+}
+
 Widget searchbar(){
 
   return Container(
-    height: 40,
+    height: 50,
     width: double.infinity,
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(10),
       color: AppColoers.LightGreyColor
 
     ),
@@ -129,7 +209,7 @@ Widget searchbar(){
         height: 20,
         color: AppColoers.blackColor,),
         widthSpacing(),
-        Icon(Icons.menu_open, color: AppColoers.greyColor,),
+        Icon(Icons.filter_list, color: AppColoers.greyColor,),
         widthSpacing(),
 
 
@@ -137,6 +217,10 @@ Widget searchbar(){
     ),
   );
 }
+
+/*Widget catagory(){
+  return CategoryItem();
+}*/
 
 
 
