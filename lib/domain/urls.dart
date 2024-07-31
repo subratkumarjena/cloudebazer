@@ -10,6 +10,6 @@ class AppUrls{
   static const String ADD_TO_CART_URL='${BASE_URL}add-to-card';
   static const String VIEW_CART_URL='${BASE_URL}product/view-cart';
   ///order
-  static const String PLACE_ORDER_URL='${BASE_URL}categories';
-  static const String FETCH_ALL_ORDER_URL='${BASE_URL}add-to-card';
+  static const String PLACE_ORDER_URL='${BASE_URL}product/create-order';
+  static const String FETCH_ALL_ORDER_URL='${BASE_URL}product/get-order';
 }

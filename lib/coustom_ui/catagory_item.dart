@@ -13,6 +13,7 @@ class CategoryItem extends StatefulWidget {
 }
 
 class _CategoryItemState extends State<CategoryItem> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,41 +30,42 @@ class _CategoryItemState extends State<CategoryItem> {
                   itemCount: state.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     var mData = state.data[index];
-                    return Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Container(
-                            height: 70,
-                            width: 70,
-                            decoration: BoxDecoration(
-
-                              shape: BoxShape.circle,
-                            ),
-                            child: ClipOval(
-                              child: SliderData.cartimage != null
-                                  ? Image.network(
-                                SliderData.cartimage[index],
-                                fit: BoxFit.fill,
-                                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return CustomCircularProgressIndicator();
-                                },
-                                errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                                  return Icon(Icons.error);
-                                },
-                              )
-                                  : CustomCircularProgressIndicator(),
+                    return  Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Container(
+                              height: 70,
+                              width: 70,
+                              decoration: BoxDecoration(
+                      
+                                shape: BoxShape.circle,
+                              ),
+                              child: ClipOval(
+                                child: SliderData.cartimage != null
+                                    ? Image.network(
+                                  SliderData.cartimage[index],
+                                  fit: BoxFit.fill,
+                                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return CustomCircularProgressIndicator();
+                                  },
+                                  errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                                    return Icon(Icons.error);
+                                  },
+                                )
+                                    : CustomCircularProgressIndicator(),
+                              ),
                             ),
                           ),
-                        ),
-                        Text(
-                          '${mData.name}',
-                          style: mTextStyle12(mFontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    );
+                          Text(
+                            '${mData.name}',
+                            style: mTextStyle12(mFontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      );
+
                   },
                 );
 

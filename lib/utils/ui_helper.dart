@@ -21,6 +21,15 @@ TextStyle mTextStyle34({FontWeight mFontWeight = FontWeight.normal, Color mColor
     color: mColor
   );
 }
+
+TextStyle mTextStyle24({FontWeight mFontWeight = FontWeight.normal, Color mColor = Colors.black}){
+  return TextStyle(
+      fontFamily: 'RobotoFont',
+      fontSize: 24,
+      fontWeight: mFontWeight,
+      color: mColor
+  );
+}
 TextStyle mTextStyle43({FontWeight mFontWeight = FontWeight.normal, Color mColor = Colors.black}){
   return TextStyle(
       fontFamily: 'RobotoFont',
@@ -49,6 +58,14 @@ TextStyle mTextStyle12({FontWeight mFontWeight = FontWeight.normal, Color mColor
   return TextStyle(
       fontFamily: 'RobotoFont',
       fontSize: 12,
+      fontWeight: mFontWeight,
+      color: mColor
+  );
+}
+TextStyle mTextStyle18({FontWeight mFontWeight = FontWeight.normal, Color mColor = Colors.black,}){
+  return TextStyle(
+      fontFamily: 'RobotoFont',
+      fontSize: 18,
       fontWeight: mFontWeight,
       color: mColor
   );

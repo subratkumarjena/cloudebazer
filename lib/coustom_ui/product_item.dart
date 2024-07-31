@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../data/model/product_model.dart';
+import '../main.dart';
+import '../pages/product_detail/produt_detail_page.dart';
 
 class ProductItemUi extends StatelessWidget {
   Color? bgColor;
@@ -18,7 +20,7 @@ class ProductItemUi extends StatelessWidget {
     return Scaffold(
       body: InkWell(
         onTap: (){
-
+          Navigator.push(context, SlowPageRoute(builder: (context) => ProductDetailPage(mProductId: int.parse(data.id!), imgUrl: '${data.image}', pName: '${data.name}', pPrice: '${data.price}'),));
         },
         child: Container(
           decoration: BoxDecoration(
@@ -33,7 +35,9 @@ class ProductItemUi extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
                   children: [
-                    Image.network('${data.image}',height: 120,),
+                    Hero(tag: 'product',
+                    child: Image.network('${data.image}',height: 120,)),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [

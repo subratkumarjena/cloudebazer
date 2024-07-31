@@ -10,9 +10,9 @@ import 'package:cloudbazar/utils/ui_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import '../coustom_ui/catagory_item.dart';
-import 'cart_page.dart';
-import 'mainhome.dart';
+
 class HomePage extends StatefulWidget{
 
   @override
@@ -23,20 +23,16 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
     context.read<CategoryBloc>().add(Catagory());
     context.read<ProductBloc>().add(getproduct());
   }
-  int selecedIndex = 0;
-  List<Widget> navpage = [
-    CartPage(),
-    MainHome()
-  ];
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      extendBody: true,
       body:Column(
         children: [
           Padding(
@@ -76,18 +72,57 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         Text(
                           ' Special For You',
-                          style: mTextStyle16(),
+                          style: mTextStyle18(),
                         ),
-                        Text(
-                          ' See all ',
-                          style: mTextStyle16(),
+                        InkWell(
+                          onTap: (){
+
+                          },
+                          child: Container(
+                            height: 35,
+                            width: 80,
+                            child: Center(
+                              child: Text(
+                                ' See all ',
+                                style: mTextStyle18(mFontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
     BlocBuilder<ProductBloc,ProductState>(
     builder: (_,state){
-    if(state is ProductLoadingState){
-    return Center(child: CircularProgressIndicator(),);
+      if (state is ProductLoadingState) {
+        return Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: Center(
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey.shade200,
+              highlightColor: AppColoers.whiteColor,
+              child: Column(
+                children: List.generate(3, (index) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: List.generate(2, (index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color:  Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(21),
+                        ),
+
+                        width: 170,
+                        height: 200,
+                        margin: EdgeInsets.all(2.0),
+
+                      );
+                    }),
+                  );
+                }),
+              ),
+            ),
+          ),
+        );
     }else if(state is ProductErrorState){
     return Center(child: Text(state.Errormsg),);
     }else if(state is ProductLoadedState){
@@ -108,7 +143,8 @@ class _HomePageState extends State<HomePage> {
       );
 
     }
-    return Container();},),
+    return Container();
+    },),
 
                   ],
                 ),
@@ -118,27 +154,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
 
-      bottomNavigationBar: BottomAppBar(
-        elevation: 11,
-        shadowColor: AppColoers.primaryColor,
-        surfaceTintColor: Colors.white,
-        notchMargin: 6,
-        shape: CircularNotchedRectangle(),
 
-      ),
-
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColoers.primaryColor,
-        foregroundColor: AppColoers.whiteColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100)
-        ),
-        onPressed: (){
-
-        },
-        child: Icon(Icons.home_outlined),
-      ),
     );
   }
   Widget mAppBar(){
@@ -218,40 +234,39 @@ Widget searchbar(){
   );
 }
 
-/*Widget catagory(){
-  return CategoryItem();
-}*/
+
 
 
 
 /// Botton navbar
-// BottomNavigationBar(
-//   items: [
-//     BottomNavigationBarItem(
-//         icon: Icon(Icons.home),
-//             label: "Home"
-//     ),
-//     BottomNavigationBarItem(
-//         icon: Icon(Icons.explore),
-//         label: "Explore"
-//     ),
-//     BottomNavigationBarItem(
-//         icon: Icon(Icons.notifications),
-//         label: "Notification"
-//     ),
-//     BottomNavigationBarItem(
-//         icon: Icon(Icons.account_circle_outlined),
-//         label: "Profile"
-//     )
-//   ],
-//   unselectedItemColor: Colors.grey,
-//   selectedItemColor: Colors.cyan,
-//   currentIndex:selecedIndex,
-//   onTap: (value){
-//     selecedIndex = value;
-//     setState(() {
-//
-//     });
-//
-//   },
-// ),
+/*
+BottomNavigationBar(
+  items: [
+    BottomNavigationBarItem(
+        icon: Icon(Icons.home),
+            label: "Home"
+    ),
+    BottomNavigationBarItem(
+        icon: Icon(Icons.explore),
+        label: "Explore"
+    ),
+    BottomNavigationBarItem(
+        icon: Icon(Icons.notifications),
+        label: "Notification"
+    ),
+    BottomNavigationBarItem(
+        icon: Icon(Icons.account_circle_outlined),
+        label: "Profile"
+    )
+  ],
+  unselectedItemColor: Colors.grey,
+  selectedItemColor: Colors.cyan,
+  currentIndex:selecedIndex,
+  onTap: (value){
+    selecedIndex = value;
+    setState(() {
+
+    });
+
+  },
+),*/

@@ -3,8 +3,11 @@ import 'package:cloudbazar/pages/authpage/ui/signup.dart';
 import 'package:cloudbazar/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import '../../../domain/api_helper.dart';
+import '../../../utils/app_coloers.dart';
 import '../../../utils/ui_helper.dart';
+import '../../mainhome.dart';
 import '../loginb/login_bloc.dart';
 import '../resisterbloc/resister_bloc.dart';
 
@@ -34,7 +37,7 @@ class _LoginScreenState extends State<LogIn> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('E-Commerce',
+              const Text('CloudBazar',
                   style: TextStyle(
                     fontSize: 30,
                   )),
@@ -95,9 +98,11 @@ class _LoginScreenState extends State<LogIn> {
                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
 
-                        CircularProgressIndicator(),
-
-                            Text("Loding..."),
+                            SizedBox(
+                              child: Lottie.asset('assets/lottie/pro.json'),
+                              height: 260,
+                              width: 250,
+                            ),
                           ],
                         )));
                   }
@@ -109,13 +114,12 @@ class _LoginScreenState extends State<LogIn> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomePage(),
+                          builder: (context) => MainHome(),
                         ));
                   }
                 },
                 child: Container(
-                  color: Colors.cyan,
-                  width: 500,
+                  width: 340,
                   height: 50,
                   child: ElevatedButton(
                       onPressed: ()  {
@@ -126,11 +130,11 @@ class _LoginScreenState extends State<LogIn> {
                       child: Text(
                         'Login',
                         style:
-                        TextStyle(fontSize: 25, color: Colors.white),
+                        mTextStyle24(mColor: AppColoers.whiteColor),
                       ),
                       style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(),
-                        backgroundColor: Colors.blue.shade500,
+                        shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(10) ),
+                        backgroundColor: AppColoers.primaryColor,
                       )),
                 ),
               ),
@@ -140,8 +144,7 @@ class _LoginScreenState extends State<LogIn> {
                 children: [
                   Text(
                     'Don\'t have an account? ',
-                    style: TextStyle(
-                        fontSize: 20, color: Colors.purple.shade600),
+                    style: mTextStyle16(mColor: AppColoers.primaryColor),
                   ),
                   InkWell(
                       onTap: () {
@@ -157,7 +160,7 @@ class _LoginScreenState extends State<LogIn> {
                       child: Text(
                         'Sign up',
                         style:
-                        TextStyle(fontSize: 21, color: Colors.blue),
+                        TextStyle(fontSize: 18, color: Colors.blue),
                       )),
                 ],
               ),
