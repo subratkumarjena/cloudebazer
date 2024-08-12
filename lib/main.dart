@@ -17,7 +17,7 @@ void main() {
     BlocProvider(create: (context) => LoginBloc(apiHelper: ApiHelper()),),
     BlocProvider(create: (context) => CategoryBloc(apiHelper: ApiHelper()),),
     BlocProvider(create: (context) => ProductBloc(apiHelper: ApiHelper()),),
-    BlocProvider(create: (context) => DetailBloc(apiHelper: ApiHelper()),),
+    BlocProvider<DetailBloc>(create: (context) => DetailBloc(apiHelper: ApiHelper()),),
     BlocProvider(create: (context) => ViewCartBloc(apiHelper: ApiHelper()),),
     BlocProvider(create: (context) => CheckoutBloc(apiHelper: ApiHelper()),),
     BlocProvider(create: (context) => OrderBloc(apiHelper: ApiHelper()),),
